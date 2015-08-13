@@ -47,11 +47,11 @@ ZSH_THEME="superjarin"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
 
-source $ZSH/oh-my-zsh.sh
+#source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-export PATH="/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/home/apomosov/Рабочий стол/scripts:/home/apomosov/soft/gradle-1.12/bin:/home/apomosov/Рабочий стол/scripts:/home/apomosov/soft/gradle-1.12/bin"
+export PATH="/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/home/apomosov/Рабочий стол/scripts:/home/apomosov/soft/gradle-1.12/bin:/home/apomosov/Рабочий стол/scripts:/home/apomosov/soft/gradle-1.12/bin:~/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -74,25 +74,22 @@ export PATH="/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-alias cdt='cd /ssd/trunk_hg'
-alias cdc='cd /ssd/trunk_hg/code'
-alias cdcc='cd /ssd/trunk_hg/code/client'
-alias cdcs='cd /ssd/trunk_hg/code/server'
-alias cdi='cd /home/apomosov/Рабочий\ стол/idea-IU-129.1525/bin'
-alias cdcfg='cd /ssd/trunk_hg/code/hooks/configs/'
-alias cdgd='cd /ssd/trunk_hg/game/data'
+
+if [ -f ~/.aliases ]; then
+  . ~/.aliases
+fi
 alias vmi='vim'
-alias ack='ack-grep'
+alias duh='du -h * --max-depth=0'
+alias s='percol'
 
 # some more ls aliases
-alias ll='ls -alF'
+alias ll='ls -alhF'
 alias la='ls -A'
 alias l='ls -CF'
 
 alias hglog='hg log --template "\033[0;33m{rev}\t{svnrev|nonempty}\t\033[1;30m{phase}\t<{author|person}>\t\033[1;30m({date|age})\t\033[0m{desc|firstline|strip}\033[0m\n"'
 
 alias tmux='tmux -2 attach || tmux -2 new'
-alias f1svn='ssh apomosov@100.99.16.208'
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
@@ -100,10 +97,33 @@ alias f1svn='ssh apomosov@100.99.16.208'
 
 # functions
 # Поиск файла по шаблону:
-function ff() { find . -type f -iname '*'$*'*' -ls ; }
+if [ -f ~/.functions ]; then
+  . ~/.functions
+fi
+
+function ff() { find . -type f -iname '*'$*'*' -ls; }
+function fff() { find . -type f -iname '*'$*'*' -ls | fpp; }
 # Поиск файла по шаблону в $1 и запуск команды в $2 с ним:
 function fe() { find . -type f -iname '*'$1'*' -exec "${2:-file}" {} \;  ; }
-
+function agf() { ag $* | fpp; }
+# cat and shadow password
+function scat() { cat $* | sed 's/password.*/password=\*\*\*\*\*\*/' ; }
+function psg() {ps aux | grep $1 ; }
+function share() { cp -R "$*" ~/share ; }
+function ww() { echo $* >> ~/share/wall.txt ; }
+function cww() { echo $* > ~/share/wall.txt ; }
+function rw() { curl localhost:7777/wall.txt ; }
 if [[ $COLORTERM == "gnome-terminal" ]]; then
   export TERM="xterm-256color"
 fi
+
+JDK_HOME=/ssd/trunk_hg/vendors/Java/jdk-1.8-linux-64/
+IDEA_JDK_64=/ssd/trunk_hg/vendors/Java/jdk-1.8-linux-64/
+export HISTSIZE=1000000
+HISTFILE="$HOME/.history"
+export SAVEHIST=$HISTSIZE
+
+autoload -U colors && colors
+PS1="%{$fg[yellow]%}[$(date +%H:%M:%S)] %{$fg[red]%}%n%{$reset_color%}@%{$fg[blue]%}%m %{$fg[yellow]%}%~ %{$reset_color%}%% "
+
+[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && exec start && xrandr --output DVI-I-3 --auto --pos 0x0 --output DVI-I-2 --auto --right-of DVI-I-3x
