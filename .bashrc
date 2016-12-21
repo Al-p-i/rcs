@@ -90,12 +90,7 @@ alias l='ls -CF'
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-alias hglog='hg log --template "\033[0;33m{rev}\t{svnrev|nonempty}\t\033[1;30m{phase}\t<{author|person}>\t\033[1;30m({date|age})\t\033[0m{desc|firstline|strip}\033[0m\n"'
-
 alias tmux='tmux attach || tmux new'
-alias f1svn='ssh apomosov@100.99.16.208'
-alias sandbox ='ssh apomosov@100.112.6.55'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -106,20 +101,7 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-alias cdt='cd /ssd/trunk_hg'
-alias cdc='cd /ssd/trunk_hg/code'
-alias cdcc='cd /ssd/trunk_hg/code/client'
-alias cdcs='cd /ssd/trunk_hg/code/server'
-alias cdi='cd /home/apomosov/Рабочий\ стол/idea-IU-129.1525/bin'
-alias cdcfg='cd /ssd/trunk_hg/code/hooks/configs/'
-alias cdgd='cd /ssd/trunk_hg/game/data'
 alias vmi='vim'
-alias ack='ack-grep'
-
-#path
-export PATH=$PATH:/home/apomosov/Рабочий\ стол/scripts
-export GRADLE_HOME=/home/apomosov/soft/gradle-1.12
-export PATH=$PATH:$GRADLE_HOME/bin
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
